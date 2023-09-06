@@ -17,19 +17,18 @@ class Clusterer(object):
     # getClusters
     # ------------------------------------------------------------------------
     @staticmethod
-    def getClusters(bands: list, numClusters: int=5) -> numpy.ndarray:
+    def getClusters(bands: list, numClusters: int = 5) -> numpy.ndarray:
 
         img = numpy.moveaxis(bands, 0, -1)
         img1d = img.reshape(-1, img.shape[-1])
 
         cl = cluster.MiniBatchKMeans(n_clusters=numClusters,
                                      random_state=0,
-                                     batch_size=256*cpu_count()
-                                    )
+                                     batch_size=256*cpu_count())
 
         model = cl.fit(img1d)
         imgCl = model.labels_
-        imgCl = imgCl.reshape(img[:,:,0].shape)
+        imgCl = imgCl.reshape(img[:, :, 0].shape)
 
         return imgCl
 
@@ -47,13 +46,13 @@ class Clusterer(object):
         if labelsFile.exists():
             labelsFile.unlink()
 
-        labelsDs = gdal.GetDriverByName('GTiff').Create( \
-                        str(labelsFile),
-                        xsize=referenceDs.RasterXSize,
-                        ysize=referenceDs.RasterYSize,
-                        eType=gdal.GDT_Float32,
-                        options=['COMPRESS=LZW']
-                   )
+        labelsDs = gdal.GetDriverByName('GTiff').Create(
+            str(labelsFile),
+            xsize=referenceDs.RasterXSize,
+            ysize=referenceDs.RasterYSize,
+            eType=gdal.GDT_Float32,
+            options=['COMPRESS=LZW']
+        )
 
         labelsDs.SetSpatialRef(referenceDs.GetSpatialRef())
         labelsDs.SetGeoTransform(referenceDs.GetGeoTransform())
