@@ -40,7 +40,7 @@ square_number: <identifying number>
 algorithm: kmeans
 
 input_dir: '/path/to/input/dir/'
-input_txt_file: '/path/to/text/file.txt'
+input_txt_file: 'ImageCluster/examples/Tappan01_WV-MS.txt' # File containing names of the images we want to process
 input_identifier: '-ard.tif' # Post-string and file-type of the input files
 
 clip: True # True: clip the image to an extent, False: run kmeans on the input image without changes
@@ -61,3 +61,26 @@ output_dir: '/path/to/output/dir'
 
 ```
 
+### Running tappan cluster
+
+Currently the ilab-base container does not have all the packages we need, due to that we will need to use conda while the application container is built.
+
+```bash
+$ module load anaconda
+$ conda activate ilab-pytorch
+$ ls
+core ImageCluster
+(ilab-pytorch) $ export PYTHONPATH=$PWD:$PWD/core:$PWD/ImageCluster
+(ilab-pytorch) $ python ImageCluster/imagecluster/view/tappanClusterCLV.py -c <path to config file>
+```
+
+
+#### Example
+```bash
+$ module load anaconda
+$ conda activate ilab-pytorch
+$ ls
+core ImageCluster
+(ilab-pytorch) $ export PYTHONPATH=$PWD:$PWD/core:$PWD/ImageCluster
+(ilab-pytorch) $ python ImageCluster/imagecluster/view/tappanClusterCLV.py -c ImageCluster/examples/configs/tappan_01.yaml
+```
