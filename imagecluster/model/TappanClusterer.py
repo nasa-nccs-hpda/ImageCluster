@@ -171,17 +171,27 @@ class TappanClusterer(object):
 
         driver = gdal.GetDriverByName('GTiff')
 
+        # Set the options for LZW compression
+        options = [
+            'COMPRESS=LZW',  # Use LZW compression
+        ]
+
         dst_ds = driver.Create(output_path,
                                cluster_image.shape[1],
                                cluster_image.shape[0],
                                1,
-                               gdal.GDT_Byte)
+                               gdal.GDT_Byte,
+                               options=options)
 
         dst_ds.SetProjection(output_srs)
 
         dst_ds.SetGeoTransform(output_trf)
 
         dst_band = dst_ds.GetRasterBand(1)
+
+        description = f'{algorithm} nclusters: {nclusters}'
+
+        dst_band.SetDescription(description)
 
         dst_band.WriteArray(cluster_image.astype(np.uint8))
 
