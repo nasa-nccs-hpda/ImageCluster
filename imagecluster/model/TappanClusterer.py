@@ -463,7 +463,7 @@ class TappanClusterer(object):
 
         for file_to_clip in tqdm.tqdm(files_to_clip):
 
-            file_to_clip = file_to_clip.replace('M1BS', 'MS')
+            #file_to_clip = file_to_clip.replace('M1BS', 'MS')
 
             file_path_to_clip = self.find_file_name(
                 input_dir, file_to_clip,
